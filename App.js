@@ -1,20 +1,39 @@
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+
+// import react native gesture handler
+import 'react-native-gesture-handler';
+// import react Navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+// embedded components
+import Home from './components/Home'
+import Chat from './components/Chat'
+
+// create the navigator 
+const Stack = createStackNavigator();
 
 export default function App() {
+  const [text, setText] = useState('')
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Screen1">
+        <Stack.Screen
+          name="Welcome"
+          component={Home}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
 });
