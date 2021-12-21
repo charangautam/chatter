@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 
 // import react native gesture handler
 import 'react-native-gesture-handler';
@@ -9,21 +8,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // embedded components
-import Home from './components/Home'
+import Start from './components/Start'
 import Chat from './components/Chat'
 
 // create the navigator 
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [text, setText] = useState('')
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Screen1">
         <Stack.Screen
           name="Welcome"
-          component={Home}
+          component={Start}
         />
         <Stack.Screen
           name="Chat"
@@ -34,6 +31,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
 
-});
