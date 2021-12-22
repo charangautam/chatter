@@ -15,7 +15,7 @@ import image from '../assets/backgroundImg.png'
 
 export default function Start(props) {
     const [user, setUser] = useState('')
-    const [color, setColor] = useState('#B9C6AE')
+    const [color, setColor] = useState('#064635')
 
     // load google fonts 
     let [fontsLoaded] = useFonts({
@@ -47,17 +47,17 @@ export default function Start(props) {
                             <View style={{ width: "88%" }}>
                                 <Text style={styles.chooseColor}>Choose a background color</Text>
                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#A45D5D' }]}>
-                                        <Button title='' onPress={() => setColor('#A45D5D')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#8E0505' }]}>
+                                        <Button title='' onPress={() => setColor('#8E0505')} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#125D98' }]}>
-                                        <Button title='' onPress={() => setColor('#125D98')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#22577A' }]}>
+                                        <Button title='' onPress={() => setColor('#22577A')} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#716F81' }]}>
-                                        <Button title='' onPress={() => setColor('#716F81')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#AE431E' }]}>
+                                        <Button title='' onPress={() => setColor('#AE431E')} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#116530' }]}>
-                                        <Button title='' onPress={() => setColor('#116530')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#064635' }]}>
+                                        <Button title='' onPress={() => setColor('#064635')} />
                                     </View>
                                 </View>
                             </View>
@@ -69,7 +69,6 @@ export default function Start(props) {
                                     onPress={() => {
                                         props.navigation.navigate("Chat", { user: user, color: color })
                                     }}
-                                    color='black'
                                 />
                             </View>
                         </View>
@@ -122,7 +121,7 @@ const styles = {
     chooseColor: {
         fontSize: 16,
         fontFamily: "Poppins_600SemiBold",
-        color: 'black',
+        color: 'white',
     },
     colorButtons: {
         width: 50,
@@ -132,7 +131,7 @@ const styles = {
     },
     goChatButton: {
         width: "88%",
-        backgroundColor: '#B4C6A6',
+        backgroundColor: '#212121',
         marginBottom: 24,
         padding: 5,
     }
