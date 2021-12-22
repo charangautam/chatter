@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
+// google fonts | font awesome | bg img
 import {
     useFonts,
     Poppins_300Light,
@@ -16,6 +17,7 @@ export default function Start(props) {
     const [user, setUser] = useState('')
     const [color, setColor] = useState('#B9C6AE')
 
+    // load google fonts 
     let [fontsLoaded] = useFonts({
         Poppins_300Light,
         Poppins_400Regular,
@@ -48,8 +50,8 @@ export default function Start(props) {
                                     <View style={[styles.colorButtons, { backgroundColor: '#F29191' }]}>
                                         <Button title='' onPress={() => setColor('#F29191')} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#474056' }]}>
-                                        <Button title='' onPress={() => setColor('#474056')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#A2DBFA' }]}>
+                                        <Button title='' onPress={() => setColor('#A2DBFA')} />
                                     </View>
                                     <View style={[styles.colorButtons, { backgroundColor: '#8A95A5' }]}>
                                         <Button title='' onPress={() => setColor('#8A95A5')} />
@@ -63,6 +65,7 @@ export default function Start(props) {
                                 <Button
                                     title='Go to chat'
                                     color="#FFFFFF"
+                                    // pass in user and color state to Chat.js
                                     onPress={() => {
                                         props.navigation.navigate("Chat", { user: user, color: color })
                                     }}
@@ -118,7 +121,7 @@ const styles = {
     chooseColor: {
         fontSize: 16,
         fontFamily: "Poppins_600SemiBold",
-        color: '#757083',
+        color: 'black',
     },
     colorButtons: {
         width: 50,
