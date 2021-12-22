@@ -13,7 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import image from '../assets/backgroundImg.png'
 
 export default function Start(props) {
-    const [name, setName] = useState('')
+    const [user, setUser] = useState('')
     const [color, setColor] = useState('#B9C6AE')
 
     let [fontsLoaded] = useFonts({
@@ -35,9 +35,9 @@ export default function Start(props) {
                             <View style={styles.searchContainer} >
                                 <FontAwesome5 name={'user-astronaut'} size={24} />
                                 <TextInput
-                                    style={styles.nameInput}
-                                    onChangeText={setName}
-                                    value={name}
+                                    style={styles.userInput}
+                                    onChangeText={setUser}
+                                    value={user}
                                     placeholder='Your name'
                                     opacity={0.5}
                                 />
@@ -64,7 +64,7 @@ export default function Start(props) {
                                     title='Go to chat'
                                     color="#FFFFFF"
                                     onPress={() => {
-                                        props.navigation.navigate("Chat", { name: name, color: color })
+                                        props.navigation.navigate("Chat", { user: user, color: color })
                                     }}
                                 />
                             </View>
@@ -109,7 +109,7 @@ const styles = {
         padding: 16,
         marginTop: 24,
     },
-    nameInput: {
+    userInput: {
         color: '#757083',
         marginLeft: 10,
         fontSize: 19,
