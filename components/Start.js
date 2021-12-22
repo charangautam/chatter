@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ImageBackground, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
 import {
@@ -14,7 +14,7 @@ import image from '../assets/backgroundImg.png'
 
 export default function Start(props) {
     const [name, setName] = useState('')
-    const [color, setColor] = useState('')
+    const [color, setColor] = useState('#B9C6AE')
 
     let [fontsLoaded] = useFonts({
         Poppins_300Light,
@@ -31,7 +31,7 @@ export default function Start(props) {
                 <ImageBackground source={image} resizeMode="cover" style={styles.image}>
                     <View style={styles.startDiv}>
                         <Text style={styles.title}>Chatter</Text>
-                        <View style={styles.goChatDiv}>
+                        <View style={[styles.goChatDiv, { backgroundColor: color }]}>
                             <View style={styles.searchContainer} >
                                 <FontAwesome5 name={'user-astronaut'} size={24} />
                                 <TextInput
@@ -43,10 +43,10 @@ export default function Start(props) {
                                 />
                             </View>
                             <View style={{ width: "88%" }}>
-                                <Text>Choose a background color</Text>
+                                <Text style={styles.chooseColor}>Choose a background color</Text>
                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#F05454' }]}>
-                                        <Button title='' onPress={() => setColor('#F05454')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#F29191' }]}>
+                                        <Button title='' onPress={() => setColor('#F29191')} />
                                     </View>
                                     <View style={[styles.colorButtons, { backgroundColor: '#474056' }]}>
                                         <Button title='' onPress={() => setColor('#474056')} />
@@ -87,7 +87,6 @@ const styles = {
         justifyContent: 'space-around'
     },
     goChatDiv: {
-        backgroundColor: '#FFFFFF',
         height: '39%',
         width: '88%',
         borderRadius: 20,
@@ -118,7 +117,7 @@ const styles = {
     },
     chooseColor: {
         fontSize: 16,
-        fontFamily: 'Poppins_300Light',
+        fontFamily: "Poppins_600SemiBold",
         color: '#757083',
     },
     colorButtons: {
