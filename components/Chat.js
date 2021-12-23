@@ -24,6 +24,12 @@ export default function Chat(props) {
                     name: 'React Native',
                     avatar: 'https://placeimg.com/140/140/any',
                 },
+                // Mark the message as sent, using one tick
+                sent: true,
+                // Mark the message as received, using two tick
+                received: true,
+                // Mark the message as pending with a clock loader
+                pending: true,
             },
             {
                 _id: 2,
