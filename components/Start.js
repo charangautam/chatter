@@ -1,45 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
-// google fonts | font awesome | bg img
-import {
-    useFonts,
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-} from '@expo-google-fonts/poppins'
+// font awesome | bg img
 import { FontAwesome5 } from '@expo/vector-icons';
 import image from '../assets/backgroundImg.png'
 
-export default function Start(props) {
-    const [user, setUser] = useState('')
-    const [color, setColor] = useState('#064635')
+export default class Start extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: '',
+            color: '#064635'
+        }
+    }
 
-    // load google fonts 
-    let [fontsLoaded] = useFonts({
-        Poppins_300Light,
-        Poppins_400Regular,
-        Poppins_600SemiBold,
-        Poppins_700Bold,
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading />
-    } else {
+    render() {
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground source={image} resizeMode="cover" style={styles.image}>
                     <View style={styles.startDiv}>
                         <Text style={styles.title}>Chatter</Text>
-                        <View style={[styles.goChatDiv, { backgroundColor: color }]}>
+                        <View style={[styles.goChatDiv, { backgroundColor: this.state.color }]}>
                             <View style={styles.searchContainer} >
                                 <FontAwesome5 name={'user-astronaut'} size={24} />
                                 <TextInput
                                     style={styles.userInput}
-                                    onChangeText={setUser}
-                                    value={user}
+                                    onChangeText={(user) => this.setState({ user })}
+                                    value={this.state.user}
                                     placeholder='Your name'
                                     opacity={0.5}
                                 />
@@ -47,27 +35,26 @@ export default function Start(props) {
                             <View style={{ width: "88%" }}>
                                 <Text style={styles.chooseColor}>Choose a background color</Text>
                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#8E0505' }]}>
-                                        <Button title='' onPress={() => setColor('#8E0505')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#8E0505', borderColor: this.state.color === '#8E0505' ? 'white' : null }]}>
+                                        <Button title='' onPress={() => this.setState({ color: '#8E0505' })} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#22577A' }]}>
-                                        <Button title='' onPress={() => setColor('#22577A')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#22577A', borderColor: this.state.color === '#22577A' ? 'white' : null }]}>
+                                        <Button title='' onPress={() => this.setState({ color: '#22577A' })} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#AE431E' }]}>
-                                        <Button title='' onPress={() => setColor('#AE431E')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#AE431E', borderColor: this.state.color === '#AE431E' ? 'white' : null }]}>
+                                        <Button title='' onPress={() => this.setState({ color: '#AE431E' })} />
                                     </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#064635' }]}>
-                                        <Button title='' onPress={() => setColor('#064635')} />
+                                    <View style={[styles.colorButtons, { backgroundColor: '#064635', borderColor: this.state.color === '#064635' ? 'white' : null }]}>
+                                        <Button title='' onPress={() => this.setState({ color: '#064635' })} />
                                     </View>
                                 </View>
                             </View>
                             <View style={styles.goChatButton}>
                                 <Button
                                     title='Go to chat'
-                                    color="#FFFFFF"
                                     // pass in user and color state to Chat.js
                                     onPress={() => {
-                                        props.navigation.navigate("Chat", { user: user, color: color })
+                                        this.props.navigation.navigate("Chat", { user: this.state.user, color: this.state.color })
                                     }}
                                 />
                             </View>
@@ -79,7 +66,7 @@ export default function Start(props) {
     }
 }
 
-const styles = {
+const styles = StyleSheet.create({
     image: {
         flex: 1,
         justifyContent: 'center'
@@ -98,7 +85,7 @@ const styles = {
         justifyContent: 'space-between'
     },
     title: {
-        fontFamily: 'Poppins_700Bold',
+        fontWeight: "700",
         fontSize: 46,
         color: '#FFFFFF',
     },
@@ -120,14 +107,15 @@ const styles = {
     },
     chooseColor: {
         fontSize: 16,
-        fontFamily: "Poppins_600SemiBold",
+        fontWeight: "600",
         color: 'white',
     },
     colorButtons: {
+        borderWidth: 2,
         width: 50,
         height: 50,
-        borderRadius: "50%",
-        marginTop: 20
+        marginTop: 20,
+        borderRadius: 50
     },
     goChatButton: {
         width: "88%",
@@ -135,4 +123,4 @@ const styles = {
         marginBottom: 24,
         padding: 5,
     }
-}
+})
