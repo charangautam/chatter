@@ -4,15 +4,67 @@ import { StyleSheet, View, Platform, KeyboardAvoidingView } from 'react-native';
 // gifted chat
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
+// firebase | firestore
+const firebase = require('firebase');
+require('firebase/firestore');
+
 export default class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            uid: 0,
             messages: []
         }
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHVy-HWP25KcZylGZst_AQAEIZU5k_0v4",
+            authDomain: "chatter-09.firebaseapp.com",
+            projectId: "chatter-09",
+            storageBucket: "chatter-09.appspot.com",
+            messagingSenderId: "845839424084",
+            appId: "1:845839424084:web:a71dc1bee920c60a20abc1",
+            measurementId: "G-5PPR15SR9G"
+        }
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        this.referenceChatMessages = firebase.firestore().collection("messages");
     }
 
+    onCollectionUpdate = (querySnapshot) => {
+        const messages = [];
+        // go through each document
+        querySnapshot.forEach((doc) => {
+            // get the QueryDocumentSnapshot's data
+            let data = doc.data();
+            messages.push({
+                _id: data._id,
+                text: data.text,
+                createdAt: data.createdAt.toDate(),
+                user: data.user,
+            });
+        });
+        this.setState({
+            messages
+        })
+    };
+
     componentDidMount() {
+        this.referenceChatMessages = firebase.firestore().collection('messages');
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (!user) {
+                firebase.auth().signInAnonymously();
+            }
+            this.setState({
+                uid: user.uid,
+                messages: [],
+            });
+            this.unsubscribe = this.referenceChatMessages
+                .orderBy("createdAt", "desc")
+                .onSnapshot(this.onCollectionUpdate);
+        });
         // get state props from Start.js
         let user = this.props.route.params.user
         this.props.navigation.setOptions({ title: user })
@@ -42,6 +94,10 @@ export default class Chat extends React.Component {
                 },
             ]
         })
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
     // appends previous messages into new messages state
