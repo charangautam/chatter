@@ -51,6 +51,18 @@ export default class Chat extends React.Component {
         })
     };
 
+    addMessage() {
+        this.referenceChatMessages.add({
+            _id: 3,
+            text: `Add a message?`,
+            createdAt: new Date(),
+            user: {
+                _id: 3,
+                name: 'React Native is hard',
+                avatar: 'https://placeimg.com/140/140/any',
+            }
+        })
+    }
     componentDidMount() {
         this.referenceChatMessages = firebase.firestore().collection('messages');
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -102,6 +114,7 @@ export default class Chat extends React.Component {
 
     // appends previous messages into new messages state
     onSend(messages = []) {
+        this.addMessage()
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
         }))
