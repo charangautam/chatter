@@ -123,7 +123,13 @@ export default class Chat extends React.Component {
                         backgroundColor: '#444941',
                     },
                     left: {
-                        backgroundColor: '#EEEEEE',
+                        backgroundColor: '#CCD1E4',
+                        color: 'black'
+                    }
+                }}
+                textStyle={{
+                    left: {
+                        color: 'red',
                     }
                 }}
             />
