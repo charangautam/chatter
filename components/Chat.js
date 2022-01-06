@@ -12,10 +12,10 @@ export default class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            uid: 0,
+            uid: 1,
             messages: [],
             user: {
-                _id: '',
+                _id: 1,
                 name: '',
                 avatar: '',
             }
@@ -51,17 +51,29 @@ export default class Chat extends React.Component {
             }
             this.setState({
                 uid: user.uid,
-                messages: [],
                 user: {
                     _id: user.uid,
                     name: name,
                     avatar: 'https://placeimg.com/140/140/any',
                 },
             });
-            this.unsubscribe = this.referenceChatMessages
-                .orderBy("createdAt", "desc")
-                .onSnapshot(this.onCollectionUpdate);
         });
+        this.refMsgsUser = firebase
+            .firestore()
+            .collection("messages")
+            .where("uid", "==", this.state.uid);
+
+        this.unsubscribe = this.referenceChatMessages
+            .orderBy("createdAt", "desc")
+            .onSnapshot(this.onCollectionUpdate);
+
+        this.systemMsg = {
+            _id: Math.floor(Math.random() * 100000),
+            text: `Welcome to Chatter ${name}`,
+            createdAt: new Date(),
+            system: true
+        };
+        this.referenceChatMessages.add(this.systemMsg);
     }
 
     componentWillUnmount() {
@@ -74,16 +86,11 @@ export default class Chat extends React.Component {
         // go through each document
         querySnapshot.forEach((doc) => {
             // get the QueryDocumentSnapshot's data
-            let data = doc.data();
+            let data = { ...doc.data() }
             messages.push({
-                _id: data._id,
                 text: data.text,
                 createdAt: data.createdAt.toDate(),
-                user: {
-                    _id: data.user._id,
-                    name: data.user.name,
-                    avatar: data.user.avatar,
-                },
+                user: data.user
             });
         });
         this.setState({
@@ -91,10 +98,10 @@ export default class Chat extends React.Component {
         })
     };
 
-    addMessage() {
-        const message = this.state.messages[0];
+    addMessage(message) {
         // add a new messages to the collection
         this.referenceChatMessages.add({
+            uid: this.state.uid,
             _id: message._id,
             text: message.text || '',
             createdAt: message.createdAt,
@@ -103,13 +110,13 @@ export default class Chat extends React.Component {
     }
 
     // appends previous messages into new messages state
-    onSend(messages = []) {
+    onSend(newMessage = []) {
         this.setState(previousState => ({
             // using the GiftedChat code, add a message to bottom of screen,
             // sent by user
-            messages: GiftedChat.append(previousState.messages, messages),
+            messages: GiftedChat.append(previousState.messages, newMessage),
         }), () => {
-            this.addMessage();
+            this.addMessage(newMessage[0]);
         })
     }
 
@@ -124,12 +131,11 @@ export default class Chat extends React.Component {
                     },
                     left: {
                         backgroundColor: '#CCD1E4',
-                        color: 'black'
                     }
                 }}
                 textStyle={{
                     left: {
-                        color: 'red',
+                        color: 'black',
                     }
                 }}
             />
