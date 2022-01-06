@@ -21,6 +21,7 @@ export default class Chat extends React.Component {
             }
         }
 
+        // 
         const firebaseConfig = {
             apiKey: "AIzaSyCHVy-HWP25KcZylGZst_AQAEIZU5k_0v4",
             authDomain: "chatter-09.firebaseapp.com",
@@ -43,8 +44,7 @@ export default class Chat extends React.Component {
         let name = this.props.route.params.user
         this.props.navigation.setOptions({ title: name })
 
-        // firebase auth
-        this.referenceChatMessages = firebase.firestore().collection('messages');
+        // firebase user authentication
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (!user) {
                 firebase.auth().signInAnonymously();
@@ -58,25 +58,30 @@ export default class Chat extends React.Component {
                 },
             });
         });
+
         this.refMsgsUser = firebase
             .firestore()
             .collection("messages")
             .where("uid", "==", this.state.uid);
 
+        // listens for updates in the collection
         this.unsubscribe = this.referenceChatMessages
             .orderBy("createdAt", "desc")
             .onSnapshot(this.onCollectionUpdate);
 
+        // system message when user enters chat room
         this.systemMsg = {
             _id: Math.floor(Math.random() * 100000),
             text: `Welcome to Chatter ${name}`,
             createdAt: new Date(),
             system: true
         };
+        // add system message
         this.referenceChatMessages.add(this.systemMsg);
     }
 
     componentWillUnmount() {
+        // stop listening 
         this.authUnsubscribe();
         this.unsubscribe();
     }
@@ -88,9 +93,11 @@ export default class Chat extends React.Component {
             // get the QueryDocumentSnapshot's data
             let data = { ...doc.data() }
             messages.push({
-                text: data.text,
+                _id: data._id,
+                text: data.text || '',
                 createdAt: data.createdAt.toDate(),
-                user: data.user
+                system: data.system,
+                user: data.user,
             });
         });
         this.setState({
