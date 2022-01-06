@@ -40,8 +40,8 @@ export default class Chat extends React.Component {
 
     componentDidMount() {
         // get state props from Start.js
-        let user = this.props.route.params.user
-        this.props.navigation.setOptions({ title: user })
+        let name = this.props.route.params.user
+        this.props.navigation.setOptions({ title: name })
 
         // firebase auth
         this.referenceChatMessages = firebase.firestore().collection('messages');
