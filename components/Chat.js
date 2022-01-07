@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 
 // gifted chat
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 
 // firebase | firestore
 import firebase from 'firebase';
@@ -20,7 +20,8 @@ export default class Chat extends React.Component {
                 _id: 1,
                 name: '',
                 avatar: '',
-            }
+            },
+            isConnected: false,
         }
 
         const firebaseConfig = {
@@ -42,7 +43,7 @@ export default class Chat extends React.Component {
     }
 
     async getMessages() {
-        // load messages from AsyncStorage 
+        // load messages from local AsyncStorage 
         let messages = '';
         try {
             messages = await AsyncStorage.getItem('messages') || []
@@ -55,7 +56,7 @@ export default class Chat extends React.Component {
     };
 
     async saveMessages() {
-        // save messages from database into AsyncStorage
+        // save messages from database into local AsyncStorage
         try {
             await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages))
         } catch (error) {
@@ -65,7 +66,7 @@ export default class Chat extends React.Component {
 
     async deleteMessages() {
         // not called in app used in development only
-        // delete stored messages in AsyncStorage
+        // delete stored messages in local AsyncStorage
         try {
             await AsyncStorage.removeItem('messages')
             this.setState({ messages: [] })
@@ -75,47 +76,60 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-        this.getMessages()
         // get state props from Start.js
         let name = this.props.route.params.user
         this.props.navigation.setOptions({ title: name })
 
-        // listens for updates in the collection
-        this.unsubscribe = this.referenceChatMessages
-            .orderBy("createdAt", "desc")
-            .onSnapshot(this.onCollectionUpdate);
+        NetInfo.fetch().then(connection => {
+            // if user is online
+            if (connection.isConnected) {
+                // listens for updates messages collection
+                this.unsubscribe = this.referenceChatMessages
+                    .orderBy("createdAt", "desc")
+                    .onSnapshot(this.onCollectionUpdate);
 
-        // firebase user authentication
-        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            if (!user) {
-                firebase.auth().signInAnonymously();
+                // firebase user authentication
+                this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+                    if (!user) {
+                        firebase.auth().signInAnonymously();
+                    }
+
+                    this.setState({
+                        uid: user.uid,
+                        user: {
+                            _id: user.uid,
+                            name: name,
+                            avatar: 'https://placeimg.com/140/140/any',
+                        },
+                        isConnected: true
+                    })
+                    // save messages to local AsyncStorage
+                    this.saveMessages()
+
+                    this.refMsgsUser = firebase
+                        .firestore()
+                        .collection("messages")
+                        .where("uid", "==", this.state.uid);
+
+                })
+                // system message when user enters chat room
+                const systemMsg = {
+                    _id: `sys-${Math.floor(Math.random() * 100000)}`,
+                    text: `Welcome to Chatter ${name}`,
+                    createdAt: new Date(),
+                    system: true
+                }
+
+                this.referenceChatMessages.add(systemMsg)
+            } else {
+                this.setState({ isConnected: false })
+                // get saved messages from local AsyncStorage
+                this.getMessages()
             }
-
-            this.setState({
-                uid: user.uid,
-                user: {
-                    _id: user.uid,
-                    name: name,
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            })
-
-            this.refMsgsUser = firebase
-                .firestore()
-                .collection("messages")
-                .where("uid", "==", this.state.uid);
-
         })
 
-        // system message when user enters chat room
-        const systemMsg = {
-            _id: `sys-${Math.floor(Math.random() * 100000)}`,
-            text: `Welcome to Chatter ${name}`,
-            createdAt: new Date(),
-            system: true
-        }
 
-        this.referenceChatMessages.add(systemMsg)
+
     }
 
     componentWillUnmount() {
@@ -192,12 +206,24 @@ export default class Chat extends React.Component {
         )
     }
 
+    renderInputToolbar(props) {
+        if (this.state.isConnected == false) {
+        } else {
+            return (
+                <InputToolbar
+                    {...props}
+                />
+            );
+        }
+    }
+
     render() {
         let color = this.props.route.params.color
         return (
             <View style={{ flex: 1, backgroundColor: color }}>
                 <GiftedChat
                     renderBubble={this.renderBubble}
+                    renderInputToolbar={this.renderInputToolbar}
                     messages={this.state.messages}
                     onSend={messages => this.onSend(messages)}
                     user={{
