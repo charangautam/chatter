@@ -134,8 +134,10 @@ export default class Chat extends React.Component {
 
     componentWillUnmount() {
         // stop listening 
-        this.authUnsubscribe();
-        this.unsubscribe();
+        if (this.state.isConnected) {
+            this.authUnsubscribe();
+            this.unsubscribe();
+        }
     }
 
     onCollectionUpdate(querySnapshot) {
@@ -222,8 +224,8 @@ export default class Chat extends React.Component {
         return (
             <View style={{ flex: 1, backgroundColor: color }}>
                 <GiftedChat
-                    renderBubble={this.renderBubble}
-                    renderInputToolbar={this.renderInputToolbar}
+                    renderBubble={this.renderBubble.bind(this)}
+                    renderInputToolbar={this.renderInputToolbar.bind(this)}
                     messages={this.state.messages}
                     onSend={messages => this.onSend(messages)}
                     user={{
