@@ -16,6 +16,7 @@ export default class Start extends React.Component {
     }
 
     render() {
+        const colors = ['#8E0505', '#22577A', '#AE431E', '#064635']
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -35,18 +36,15 @@ export default class Start extends React.Component {
                             <View style={{ width: "88%" }}>
                                 <Text style={styles.chooseColor}>Choose a background color</Text>
                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#8E0505', borderColor: this.state.color === '#8E0505' ? 'white' : null }]}>
-                                        <Button title='' onPress={() => this.setState({ color: '#8E0505' })} />
-                                    </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#22577A', borderColor: this.state.color === '#22577A' ? 'white' : null }]}>
-                                        <Button title='' onPress={() => this.setState({ color: '#22577A' })} />
-                                    </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#AE431E', borderColor: this.state.color === '#AE431E' ? 'white' : null }]}>
-                                        <Button title='' onPress={() => this.setState({ color: '#AE431E' })} />
-                                    </View>
-                                    <View style={[styles.colorButtons, { backgroundColor: '#064635', borderColor: this.state.color === '#064635' ? 'white' : null }]}>
-                                        <Button title='' onPress={() => this.setState({ color: '#064635' })} />
-                                    </View>
+                                    {
+                                        colors.map(c =>
+                                            <TouchableOpacity
+                                                style={[styles.colorButtons, { backgroundColor: c, borderColor: this.state.color === c ? 'white' : null }]}
+                                                onPress={() => this.setState({ color: c })}
+                                                key={c}>
+                                            </TouchableOpacity>
+                                        )
+                                    }
                                 </View>
                             </View>
                             <View style={styles.goChatButton}>
