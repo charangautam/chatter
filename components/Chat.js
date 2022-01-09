@@ -47,7 +47,6 @@ export default class Chat extends React.Component {
         }
 
         this.referenceChatMessages = firebase.firestore().collection("messages")
-        this.refMsgsUser = null
     }
 
     getMessages = async () => {
@@ -113,12 +112,6 @@ export default class Chat extends React.Component {
                     })
                     // save messages to local AsyncStorage
                     this.saveMessages()
-
-                    this.refMsgsUser = firebase
-                        .firestore()
-                        .collection("messages")
-                        .where("uid", "==", this.state.uid);
-
                 })
                 // system message when user enters chat room
                 const systemMsg = {
