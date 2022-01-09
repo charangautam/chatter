@@ -15,7 +15,7 @@ To test and use the app, follow the steps below.
 ** Run app ** 
 - While still in the root folder
 - Type npm run start in the terminal
-- Follow the steps in the terminal to open the app in the Expo Go app on your phone
+- Follow the steps in the terminal to open the project in the Expo Go app on your phone 
 
 
 Key Features

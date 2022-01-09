@@ -85,6 +85,7 @@ export default class Chat extends React.Component {
     componentDidMount() {
         // get username prop from Start.js
         let name = this.props.route.params.user
+        if (name === '') name = 'UNNAMED'
         this.props.navigation.setOptions({ title: name })
 
         NetInfo.fetch().then(connection => {
