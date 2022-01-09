@@ -1,11 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Platform, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-
-// custom actions
-import CustomActions from './CustomActions';
-import MapView from 'react-native-maps';
 
 // gifted chat
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
@@ -13,6 +9,11 @@ import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 // firebase | firestore
 import firebase from 'firebase';
 import 'firebase/firestore';
+
+// user actions
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
+
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -27,6 +28,8 @@ export default class Chat extends React.Component {
                 avatar: '',
             },
             isConnected: false,
+            image: null,
+            location: null
         }
 
         const firebaseConfig = {
@@ -81,14 +84,14 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-        // get state props from Start.js
+        // get username prop from Start.js
         let name = this.props.route.params.user
         this.props.navigation.setOptions({ title: name })
 
         NetInfo.fetch().then(connection => {
             // if user is online
             if (connection.isConnected) {
-                // listens for updates messages collection
+                // listens for updates in messages collection
                 this.unsubscribe = this.referenceChatMessages
                     .orderBy("createdAt", "desc")
                     .onSnapshot(this.onCollectionUpdate);
@@ -120,7 +123,7 @@ export default class Chat extends React.Component {
                 // system message when user enters chat room
                 const systemMsg = {
                     _id: `sys-${Math.floor(Math.random() * 100000)}`,
-                    text: `Welcome to Chatter ${name}`,
+                    text: `${name} has entered Chatter`,
                     createdAt: new Date(),
                     system: true
                 }
@@ -132,9 +135,6 @@ export default class Chat extends React.Component {
                 this.getMessages()
             }
         })
-
-
-
     }
 
     componentWillUnmount() {
@@ -156,6 +156,8 @@ export default class Chat extends React.Component {
                 text: data.text,
                 createdAt: data.createdAt.toDate(),
                 user: data.user,
+                image: data.image || null,
+                location: data.location || null,
                 system: data.system
             })
         })
@@ -173,6 +175,8 @@ export default class Chat extends React.Component {
             text: message.text || '',
             createdAt: message.createdAt,
             user: this.state.user,
+            image: message.image || null,
+            location: message.location || null
         })
     }
 
@@ -252,6 +256,7 @@ export default class Chat extends React.Component {
     }
 
     render() {
+        // get bg color prop from Start.js
         let color = this.props.route.params.color
         return (
             <View style={{ flex: 1, backgroundColor: color }}>
@@ -260,6 +265,7 @@ export default class Chat extends React.Component {
                     renderInputToolbar={this.renderInputToolbar.bind(this)}
                     renderActions={this.renderCustomActions}
                     renderCustomView={this.renderCustomView}
+                    renderUsernameOnMessage={true}
                     messages={this.state.messages}
                     onSend={messages => this.onSend(messages)}
                     user={{
@@ -273,7 +279,3 @@ export default class Chat extends React.Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-
-})

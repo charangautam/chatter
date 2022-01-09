@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity } from 'react-native';
-import AppLoading from 'expo-app-loading';
 
 // font awesome | bg img
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -21,7 +20,7 @@ export default class Start extends React.Component {
             <View style={{ flex: 1 }}>
                 <ImageBackground source={image} resizeMode="cover" style={styles.image}>
                     <View style={styles.startDiv}>
-                        <Text style={styles.title}>Chatter</Text>
+                        <Text style={[styles.title, { color: this.state.color }]}>Chatter</Text>
                         <View style={[styles.goChatDiv, { backgroundColor: this.state.color }]}>
                             <View style={styles.searchContainer} >
                                 <FontAwesome5 name={'user-astronaut'} size={24} />
