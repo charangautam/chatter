@@ -2,7 +2,7 @@ To build a chat app for mobile devices using React Native. The app willprovide u
 
 To test and use the app, follow the steps below. 
 
-** Install Prerequisites **
+## Install Prerequisites ##
 
 - In your computer's terminal install Expo by running npm install expo-cli --global
 - Download the code as a zip file and open it in your text editor after download
