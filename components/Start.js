@@ -5,6 +5,7 @@ import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOp
 import { FontAwesome5 } from '@expo/vector-icons';
 import image from '../assets/backgroundImg.png'
 
+
 export default class Start extends React.Component {
     constructor(props) {
         super(props);

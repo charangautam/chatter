@@ -4,18 +4,19 @@ To test and use the app, follow the steps below.
 
 ** Install Prerequisites **
 
-Expo npm install expo-cli --global
-ImagePicker expo install expo-image-picker
-Location expo install expo-location
-Native Maps expo install react-native-maps
+- In your computer's terminal install Expo by running npm install expo-cli --global
+- Download the code as a zip file and open it in your text editor after download
+- Download the Expo Go mobile app on your phone
 
 ** Install Dependencies **
-Navigate to root folder of project in terminal
-Run npm install
+- Navigate to project's root directory of project in your terminal 
+- Run npm install
 
 ** Run app ** 
-While on the root folder
-Open the terminal and run npm start
+- While still in the root folder
+- Type npm run start in the terminal
+- Follow the steps in the terminal to open the app in the Expo Go app on your phone
+
 
 Key Features
 - A page where users can enter their name and choose a background color for the chat screen
