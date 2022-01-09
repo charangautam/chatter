@@ -18,7 +18,7 @@ import MapView from 'react-native-maps';
 export default class Chat extends React.Component {
     constructor(props) {
         super(props);
-        this.onCollectionUpdate = this.onCollectionUpdate.bind(this)
+
         this.state = {
             uid: 1,
             messages: [],
@@ -50,7 +50,7 @@ export default class Chat extends React.Component {
         this.refMsgsUser = null
     }
 
-    async getMessages() {
+    getMessages = async () => {
         // load messages from local AsyncStorage 
         let messages = '';
         try {
@@ -63,7 +63,7 @@ export default class Chat extends React.Component {
         }
     };
 
-    async saveMessages() {
+    saveMessages = async () => {
         // save messages from database into local AsyncStorage
         try {
             await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages))
@@ -72,7 +72,7 @@ export default class Chat extends React.Component {
         }
     }
 
-    async deleteMessages() {
+    deleteMessages = async () => {
         // not called in app used in development only
         // delete stored messages in local AsyncStorage
         try {
@@ -145,7 +145,7 @@ export default class Chat extends React.Component {
         }
     }
 
-    onCollectionUpdate(querySnapshot) {
+    onCollectionUpdate = (querySnapshot) => {
         const messages = []
         // go through each document
         querySnapshot.forEach((doc) => {
@@ -166,7 +166,7 @@ export default class Chat extends React.Component {
         })
     }
 
-    addMessage() {
+    addMessage = () => {
         // add a new message to the collection
         const message = this.state.messages[0];
         this.referenceChatMessages.add({
@@ -181,7 +181,7 @@ export default class Chat extends React.Component {
     }
 
     // appends previous messages into new messages state
-    onSend(newMessage = []) {
+    onSend = (newMessage = []) => {
         this.setState(previousState => ({
             // using the GiftedChat code, add a message to bottom of screen,
             // sent by user
@@ -217,7 +217,7 @@ export default class Chat extends React.Component {
         )
     }
 
-    renderInputToolbar(props) {
+    renderInputToolbar = (props) => {
         if (this.state.isConnected == false) {
         } else {
             return (
@@ -232,7 +232,7 @@ export default class Chat extends React.Component {
         return <CustomActions {...props} />;
     };
 
-    renderCustomView(props) {
+    renderCustomView = (props) => {
         const { currentMessage } = props;
         if (currentMessage.location) {
             return (
