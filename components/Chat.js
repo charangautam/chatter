@@ -96,6 +96,7 @@ export default class Chat extends React.Component {
                     .orderBy("createdAt", "desc")
                     .onSnapshot(this.onCollectionUpdate);
 
+
                 // firebase user authentication
                 this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
                     if (!user) {
@@ -111,8 +112,7 @@ export default class Chat extends React.Component {
                         },
                         isConnected: true
                     })
-                    // save messages to local AsyncStorage
-                    this.saveMessages()
+
                 })
                 // system message when user enters chat room
                 const systemMsg = {
@@ -158,6 +158,8 @@ export default class Chat extends React.Component {
         this.setState({
             messages
         })
+        // save messages to local AsyncStorage
+        this.saveMessages()
     }
 
     addMessage = () => {
