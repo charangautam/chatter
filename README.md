@@ -1,5 +1,22 @@
 To build a chat app for mobile devices using React Native. The app willprovide users with a chat interface and options to share images and their location.
 
+To test and use the app, follow the steps below. 
+
+** Install Prerequisites **
+
+Expo npm install expo-cli --global
+ImagePicker expo install expo-image-picker
+Location expo install expo-location
+Native Maps expo install react-native-maps
+
+** Install Dependencies **
+Navigate to root folder of project in terminal
+Run npm install
+
+** Run app ** 
+While on the root folder
+Open the terminal and run npm start
+
 Key Features
 - A page where users can enter their name and choose a background color for the chat screen
 before joining the chat.
