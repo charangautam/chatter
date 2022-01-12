@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ImageBackground, Text, TextInput, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 
 // font awesome | bg img
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -20,7 +20,7 @@ export default class Start extends React.Component {
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-                    <View style={styles.startDiv}>
+                    <KeyboardAvoidingView behavior="padding" style={styles.startDiv}>
                         <Text style={[styles.title, { color: this.state.color }]}>Chatter</Text>
                         <View style={[styles.goChatDiv, { backgroundColor: this.state.color }]}>
                             <View style={styles.searchContainer} >
@@ -57,7 +57,7 @@ export default class Start extends React.Component {
                                 />
                             </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                 </ImageBackground>
             </View>
         )
@@ -72,20 +72,21 @@ const styles = StyleSheet.create({
     startDiv: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-around'
-    },
-    goChatDiv: {
-        height: '39%',
-        width: '88%',
-        borderRadius: 20,
-        display: "flex",
-        alignItems: 'center',
-        justifyContent: 'space-between'
     },
     title: {
         fontWeight: "700",
         fontSize: 46,
         color: '#FFFFFF',
+        margin: 66,
+        flex: 1
+    },
+    goChatDiv: {
+        width: '88%',
+        borderRadius: 20,
+        display: "flex",
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 47
     },
     searchContainer: {
         flexDirection: 'row',
@@ -107,13 +108,15 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "600",
         color: 'white',
+        marginTop: 17,
     },
     colorButtons: {
         borderWidth: 2,
         width: 50,
         height: 50,
         marginTop: 20,
-        borderRadius: 50
+        borderRadius: 50,
+        marginBottom: 17
     },
     goChatButton: {
         width: "88%",
