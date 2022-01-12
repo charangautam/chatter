@@ -1,24 +1,24 @@
 To build a chat app for mobile devices using React Native. The app willprovide users with a chat interface and options to share images and their location.
 
-To test and use the app, follow the steps below. 
+## To test and use the app, follow the steps below. ##
 
-** Install Prerequisites **
+### Install Prerequisites ###
 
 - In your computer's terminal install Expo by running npm install expo-cli --global
 - Download the code as a zip file and open it in your text editor after download
 - Download the Expo Go mobile app on your phone
 
-** Install Dependencies **
+### Install Dependencies ###
 - Navigate to project's root directory of project in your terminal 
 - Run npm install
 
-** Run app ** 
+### Run app ###
 - While still in the root folder
 - Type npm run start in the terminal
 - Follow the steps in the terminal to open the project in the Expo Go app on your phone 
 
 
-Key Features
+## Key Features ##
 - A page where users can enter their name and choose a background color for the chat screen
 before joining the chat.
 - A page displaying the conversation, as well as an input field and submit button.
@@ -27,7 +27,7 @@ and location data.
 - Data gets stored online and offline.
 
 
-Technical Requirements
+## Technical Requirements ##
 - The app must be written in React Native.
 - The app must be developed using Expo.
 - The app must be styled according to the given screen design.
