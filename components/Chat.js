@@ -14,6 +14,9 @@ import 'firebase/firestore';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
 
+// config
+import { FIREBASE_CONFIG } from '@env'
+
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -32,15 +35,7 @@ export default class Chat extends React.Component {
             location: null
         }
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHVy-HWP25KcZylGZst_AQAEIZU5k_0v4",
-            authDomain: "chatter-09.firebaseapp.com",
-            projectId: "chatter-09",
-            storageBucket: "chatter-09.appspot.com",
-            messagingSenderId: "845839424084",
-            appId: "1:845839424084:web:a71dc1bee920c60a20abc1",
-            measurementId: "G-5PPR15SR9G"
-        }
+        const firebaseConfig = FIREBASE_CONFIG
 
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig)
